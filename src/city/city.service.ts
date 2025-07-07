@@ -25,10 +25,12 @@ export const createCityServices = async(city: TCityInsert):Promise<string> => {
 }
 
 // Update an existing city
-export const updateCityServices = async(cityId: number, city: Partial<TCityInsert>):Promise<string> => {
-    await db.update(cityTable).set(city).where(eq(cityTable.cityId, cityId));
-    return "city updated successfully 😎";
+export const updateCityService = async (cityId: number, user: TCityInsert): Promise<boolean> => {
+  const result = await db.update(cityTable).set(user).where(eq(cityTable.cityId, cityId));
+  // Safely check for rowCount
+  return !!result && typeof result.rowCount === "number" && result.rowCount > 0;
 }
+
 
 
 // Delete a city
