@@ -25,9 +25,10 @@ export const createStateServices = async(state: TStateInsert):Promise<string> =>
 }
 
 // Update an existing State
-export const updateStateServices = async(stateId: number, state: Partial<TStateInsert>):Promise<string> => {
-    await db.update(stateTable).set(state).where(eq(stateTable.stateId, stateId));
-    return "State updated successfully 😎";
+export const updateStateServices= async (stateId: number, user: TStateInsert): Promise<boolean> => {
+  const result = await db.update(stateTable).set(user).where(eq(stateTable.stateId, stateId));
+  // Safely check for rowCount
+  return !!result && typeof result.rowCount === "number" && result.rowCount > 0;
 }
 
 
